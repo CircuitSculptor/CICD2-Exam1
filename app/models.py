@@ -5,7 +5,7 @@ class Base(DeclarativeBase):
     pass
 
 class UserDB(Base):
-    __tablename = "users"
+    __tablename__ = "users"
     id: Mapped[int] = mapped_column(primary_key=True, index=True)
     uquipment_id: Mapped[int] = mapped_column()
     borrower_name: Mapped[str] = mapped_column(String[70], nullable=False)
