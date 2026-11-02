@@ -8,24 +8,24 @@ from app.models import Base, UserDB
 from app.schemas import UserCreate, UserRead
 
 Base.metadata.create_all(bind=engine)
-users: list[UserCreate] = []
+db_user: list[UserCreate] = []
 app = FastAPI(title="CICD2 Exam 1")
 
 @app.get("/health")
 def health():
     return{"status": "ok"}
 
-@app.get("/api/users", response_model=list[UserRead])
-def get_users(db: Session = Depends(get_db)):
+@app.get("/api/loans", response_model=list[UserRead])
+def get_loans(db: Session = Depends(get_db)):
     statement = select(UserDB).order_by(UserDB.id)
     return db.execute(statement).scalars().all()
 
-@app.post("/api/users", response_model=UserRead, status_code=status.HTTP_201_CREATED)
-def add_user (new_user:UserCreate, db: Session = Depends(get_db)):
+@app.post("/api/loan", response_model=UserRead, status_code=status.HTTP_201_CREATED)
+def add_loan (new_user:UserCreate, db: Session = Depends(get_db)):
     db_user(new_user)
     db.add(db_user)
     try: 
-       db_commit()
+        db.commit()
         db.refresh(db_user)
     except IntegrityError:
         raise HTTPException(status_code=status.HTTP_409_CONFLICT)
