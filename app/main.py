@@ -20,7 +20,7 @@ def get_loans(db: Session = Depends(get_db)):
     statement = select(UserDB).order_by(UserDB.id)
     return db.execute(statement).scalars().all()
 
-@app.post("/api/loan", response_model=UserRead, status_code=status.HTTP_201_CREATED)
+@app.post("/api/loans", response_model=UserRead, status_code=status.HTTP_201_CREATED)
 def add_loan (new_user:UserCreate, db: Session = Depends(get_db)):
     db_user(new_user)
     db.add(db_user)
@@ -31,10 +31,3 @@ def add_loan (new_user:UserCreate, db: Session = Depends(get_db)):
         raise HTTPException(status_code=status.HTTP_409_CONFLICT)
         #detail="Error"
     return db_user
-
-        
-    
-
-    
-
-
